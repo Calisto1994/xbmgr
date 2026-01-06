@@ -147,14 +147,17 @@ check_xbox () {
 listGames () {
     if [[ $(gameCount) -gt 0 ]]; then
         echo "$(gameCount) games found:"; echo "";
-        while read -r dir; do
-            dirName=$(basename $dir)
-            printf "%-25s | %s\n" "${dirName}" $(du -sh "$dir" | cut -f1);
-        done < <(find ./Unext/ -maxdepth 1 -mindepth 1 -type d)
+
+        for fName in ./Unext/*; do
+            if [[ -d "$fName" ]]; then
+                printf "%-25s | %s\n" "$(basename "${fName}")" "$(du -sh "$fName" | cut -f 1)";
+            fi
+        done
+
         total=$(du -sh ./Unext/ | cut -f1)
         echo "Total games size: ${total}";
     else
-        echo "There are currently no games in ./Unext/";
+        echo "There are currently no games in ./Unext/";K-Drama
     fi       
 }
 
